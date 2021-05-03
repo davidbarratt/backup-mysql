@@ -1,6 +1,6 @@
 FROM alpine
 
-LABEL org.opencontainers.image.source https://github.com/davidbarratt/backup-sqlite
+LABEL org.opencontainers.image.source https://github.com/davidbarratt/backup-mysql
 
 ENV MYSQL_USER=
 ENV MYSQL_PASSWORD=
