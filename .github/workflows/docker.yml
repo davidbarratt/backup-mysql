@@ -1,0 +1,25 @@
+name: Docker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker login ghcr.io -u davidbarratt --password ${{ secrets.GITHUB_TOKEN }}
+      - run: docker build --tag ghcr.io/${GITHUB_REPOSITORY} .
+      - run: docker push ghcr.io/${GITHUB_REPOSITORY}
+      - uses: azure/setup-kubectl@v1
+        with:
+          version: 'v1.19.7'
+      - uses: azure/k8s-set-context@v1
+        with:
+          method: service-account
+          k8s-url: ${{ secrets.K8S_URL }}
+          k8s-secret: ${{ secrets.K8S_SECRET }}
+      - name: "Update resources on k8s cluster"
+        run: num=$(kubectl set image cronjob -l backup=mysql backup=$(docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/${GITHUB_REPOSITORY}) | wc -l); echo "Updated $num resources";
