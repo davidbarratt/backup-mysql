@@ -9,8 +9,8 @@ for db in $databases; do
             mysqldump \
                 --skip-dump-date \
                 --host="database" \
-                --user="$USER" \
-                --password="$PASSWORD" \
+                --user="$MYSQL_USER" \
+                --password="$MYSQL_PASSWORD" \
                 $db $table > /opt/backup/$db/$table.sql;
         done
     fi
