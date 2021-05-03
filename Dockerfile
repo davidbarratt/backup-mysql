@@ -12,7 +12,7 @@ RUN apk add --no-cache  \
     python3 \
     py3-pip \
     libmagic \
-    sqlite
+    mariadb-client
 
 RUN pip install \
     python-magic \
