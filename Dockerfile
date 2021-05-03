@@ -2,6 +2,8 @@ FROM alpine
 
 LABEL org.opencontainers.image.source https://github.com/davidbarratt/backup-sqlite
 
+ENV MYSQL_USER=
+ENV MYSQL_PASSWORD=
 ENV S3_ACCESS_KEY=
 ENV S3_SECRET_KEY=
 ENV S3_BUCKET=
