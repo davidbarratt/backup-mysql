@@ -5,7 +5,7 @@ for db in $databases; do
     if [[ "$db" != "information_schema" ]] && [[ "$db" != "performance_schema" ]] && [[ "$db" != "mysql" ]] && [[ "$db" != _* ]] ; then
         tables=`mysql --skip-column-names --silent --host="database" --user="$MYSQL_USER" --password="$MYSQL_PASSWORD"  -e "SHOW TABLES FROM $db"`
         for table in $tables; do
-            mkdir /opt/backup/$db;
+            mkdir -p /opt/backup/$db;
             mysqldump \
                 --skip-dump-date \
                 --host="database" \
