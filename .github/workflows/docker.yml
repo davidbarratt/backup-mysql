@@ -21,7 +21,7 @@ jobs:
         with:
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: ghcr.io/${{ github.repository_owner }}
+          tags: ghcr.io/${{ github.repository_owner }}:latest
       # - uses: azure/setup-kubectl@v1
       #   with:
       #     version: 'v1.19.7'
