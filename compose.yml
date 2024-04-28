@@ -1,0 +1,11 @@
+services:
+    backup:
+        build: ./
+        env_file:
+            - .env
+        volumes:
+            - config:/root/.config/onedrive
+            - /home/david/.config/onedrive/refresh_token:/root/.config/onedrive/refresh_token:ro
+            - ./files:/opt/files
+volumes:
+    config:

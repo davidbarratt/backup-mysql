@@ -1,5 +1,14 @@
 
+set -e;
+
 databases=`mysql --skip-column-names --silent --host="database" --user="$MYSQL_USER" --password="$MYSQL_PASSWORD"  -e "SHOW DATABASES;"`
+
+if [[ -z "$BUCKET" ]]; then
+    echo "Must provide BUCKET in environment" 1>&2
+    exit 1
+fi
+
+mkdir -p "/opt/OneDrive/Backup/$BUCKET";
 
 for db in $databases; do
     if [[ "$db" != "information_schema" ]] && [[ "$db" != "performance_schema" ]] && [[ "$db" != "mysql" ]] && [[ "$db" != _* ]] ; then
@@ -11,17 +20,13 @@ for db in $databases; do
                 --host="database" \
                 --user="$MYSQL_USER" \
                 --password="$MYSQL_PASSWORD" \
-                $db $table > /opt/backup/$db/$table.sql;
+                $db $table > /opt/OneDrive/Backup/$BUCKET/$db/$table.sql;
         done
     fi
 done
 
-s3cmd \
-    --host="nyc3.digitaloceanspaces.com" \
-    --host-bucket="%(bucket)s.nyc3.digitaloceanspaces.com" \
-    --access_key="$S3_ACCESS_KEY" \
-    --secret_key="$S3_SECRET_KEY" \
-    --delete-removed \
-    --acl-private \
-    --default-mime-type="application/sql" \
-    sync /opt/backup/ s3://$S3_BUCKET/backup/;
+onedrive \
+    --synchronize \
+    --upload-only \
+    --syncdir="/opt/OneDrive" \
+    --single-directory="Backup/$BUCKET"
