@@ -17,6 +17,7 @@ for db in $databases; do
             mkdir -p /opt/OneDrive/Backup/$BUCKET/$db;
             mysqldump \
                 --skip-dump-date \
+                --no-tablespaces \
                 --host="database" \
                 --user="$MYSQL_USER" \
                 --password="$MYSQL_PASSWORD" \
