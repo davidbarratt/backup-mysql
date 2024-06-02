@@ -6,7 +6,8 @@ RUN apk add --no-cache  \
     sqlite \
     curl \
     onedrive \
-    mysql-client
+    mysql-client \
+    mariadb-connector-c
 
 RUN mkdir -p /opt/OneDrive/Backup
 
